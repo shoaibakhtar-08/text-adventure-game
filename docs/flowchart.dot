@@ -1,0 +1,38 @@
+digraph G {
+  rankdir=TB; dpi=170; nodesep=0.45; ranksep=0.45;
+  node [fontname="Helvetica", fontsize=11, style="filled", color="#1f3a5f", fillcolor="#eef3fa"];
+  edge [fontname="Helvetica", fontsize=10, color="#44546a"];
+
+  start [label="START", shape=oval, fillcolor="#cfe8cf"];
+  init  [label="Health = 100 (or --health)\nScore = 0", shape=box];
+  loop  [label="Health > 0 ?", shape=diamond, fillcolor="#fff4cc"];
+  menu  [label="Forest menu\n1 Cave | 2 River | 3 Quit\nRead choice", shape=parallelogram];
+  valid [label="Choice is 1, 2 or 3 ?", shape=diamond, fillcolor="#fff4cc"];
+  inv   [label="Print\n\"Invalid choice. Enter 1, 2 or 3.\"", shape=box, fillcolor="#fde2e2"];
+  sel   [label="Which choice?", shape=diamond, fillcolor="#fff4cc"];
+  cave  [label="CAVE\ndamage = random 10-40 (or --damage)\nHealth = max(0, Health - damage)\nPrint attack message", shape=box];
+  alive [label="Health > 0 ?", shape=diamond, fillcolor="#fff4cc"];
+  key   [label="Score = Score + 20\nPrint \"You found a key!\"", shape=box];
+  river [label="RIVER\nScore = Score + 50\nPrint treasure + status", shape=box];
+  quit  [label="Print \"You left the adventure.\"\nShow final Score and Health", shape=box];
+  over  [label="Print \"Game Over!\"\nShow final Score", shape=box, fillcolor="#fde2e2"];
+  end   [label="END", shape=oval, fillcolor="#f4cfcf"];
+
+  start -> init -> loop;
+  loop -> menu [label="Yes"];
+  loop -> over [label="No"];
+  menu -> valid;
+  valid -> inv [label="No"];
+  inv -> menu;
+  valid -> sel [label="Yes"];
+  sel -> cave [label="1"];
+  sel -> river [label="2"];
+  sel -> quit [label="3"];
+  cave -> alive;
+  alive -> key [label="Yes"];
+  alive -> loop [label="No"];
+  key -> loop;
+  river -> loop;
+  quit -> end;
+  over -> end;
+}
