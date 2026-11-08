@@ -5,17 +5,17 @@ digraph G {
 
   start [label="START", shape=oval, fillcolor="#cfe8cf"];
   init  [label="Health = 100\nScore = 0", shape=box];
-  loop  [label="Health > 0?", shape=diamond, fillcolor="#fff4cc"];
+  loop  [label="Health > 0 ?", shape=diamond, fillcolor="#fff4cc"];
   menu  [label="Forest menu\n1 Cave | 2 River | 3 Quit\nRead choice", shape=parallelogram];
-  valid [label="Choice is 1, 2 or 3?", shape=diamond, fillcolor="#fff4cc"];
-  inv   [label="Print invalid-choice message\nAsk again", shape=box, fillcolor="#fde2e2"];
+  valid [label="Choice is 1, 2 or 3 ?", shape=diamond, fillcolor="#fff4cc"];
+  inv   [label="Print\n\"Invalid choice. Enter 1, 2 or 3.\"", shape=box, fillcolor="#fde2e2"];
   sel   [label="Which choice?", shape=diamond, fillcolor="#fff4cc"];
-  cave  [label="CAVE\nDamage = random 10-40\nHealth = max(0, Health - Damage)", shape=box];
-  alive [label="Health > 0?", shape=diamond, fillcolor="#fff4cc"];
-  key   [label="Add 20 points\nPrint key message", shape=box];
-  river [label="RIVER\nAdd 50 points\nHealth unchanged", shape=box];
-  quit  [label="Show final score and health", shape=box];
-  over  [label="Print Game Over and final score", shape=box, fillcolor="#fde2e2"];
+  cave  [label="CAVE\ndamage = random 10-40\nHealth = max(0, Health - damage)\nPrint attack message", shape=box];
+  alive [label="Health > 0 ?", shape=diamond, fillcolor="#fff4cc"];
+  key   [label="Score = Score + 20\nPrint \"You found a key!\"", shape=box];
+  river [label="RIVER\nScore = Score + 50\nPrint treasure + status", shape=box];
+  quit  [label="Print \"You left the adventure.\"\nShow final Score and Health", shape=box];
+  over  [label="Print \"Game Over!\"\nShow final Score", shape=box, fillcolor="#fde2e2"];
   end   [label="END", shape=oval, fillcolor="#f4cfcf"];
 
   start -> init -> loop;
@@ -36,4 +36,3 @@ digraph G {
   quit -> end;
   over -> end;
 }
-
