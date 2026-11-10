@@ -1,6 +1,6 @@
 # Text-Based Adventure Game
 
-[![Tests](https://github.com/shoaibakhtar-08/text-adventure-game/actions/workflows/tests.yml/badge.svg)](https://github.com/shoaibakhtar-08/text-adventure-game/actions/workflows/tests.yml)
+[![Tests](https://github.com/YOUR-USERNAME/text-adventure-game/actions/workflows/tests.yml/badge.svg)](https://github.com/YOUR-USERNAME/text-adventure-game/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -47,16 +47,29 @@ The player starts in the **Forest** with **Health 100** and **Score 0**.
 * Python 3.8 or newer (Python 3 only, **no external libraries needed**)
 
 ```bash
-git clone https://github.com/shoaibakhtar-08/text-adventure-game.git
+git clone https://github.com/YOUR-USERNAME/text-adventure-game.git
 cd text-adventure-game
 python adventure_game.py
 ```
 
 On some systems use `python3` instead of `python`.
 
-### Testing
+### Settings for testing
 
-The game starts with `Health = 100` and uses random damage between 10 and 40. For repeatable test cases, `play(health=30, fixed_damage=30)` can be called from Python; the console game itself runs without command-line options.
+At the top of `adventure_game.py` there are two settings that make the test cases repeatable:
+
+```python
+STARTING_HEALTH = 100   # Test Case 2: change to 30
+FIXED_DAMAGE = None     # Test Cases 2 and 4: change to 30 (None = random damage)
+```
+
+| Test case | `STARTING_HEALTH` | `FIXED_DAMAGE` |
+|-----------|:-----------------:|:--------------:|
+| 1 (normal) and 3 (invalid) | 100 | `None` |
+| 2 (boundary) | 30 | 30 |
+| 4 (different valid scenario) | 100 | 30 |
+
+Set them back to `100` and `None` for normal play.
 
 ### Run the automated tests
 
@@ -64,7 +77,7 @@ The game starts with `Health = 100` and uses random damage between 10 and 40. Fo
 python -m unittest discover -s tests -v
 ```
 
-All 14 tests (the 4 given test cases plus edge cases) should pass.
+All 13 tests (the 4 given test cases plus edge cases) should pass. The tests set the two values above automatically, so you do not need to edit the file to run them.
 
 ## Project Structure
 
@@ -90,13 +103,10 @@ text-adventure-game/
 
 | Function | Purpose |
 |----------|---------|
-| `forest()` | Shows the menu, validates the choice, and returns 1, 2 or 3 |
-| `cave(score, health, fixed_damage)` | Applies the monster attack and awards 20 points if the player survives |
-| `river(score, health)` | Awards 50 points for the treasure |
-| `get_damage(fixed_damage)` | Returns random damage from 10 to 40, or a fixed value for testing |
-| `show_status(score, health)` | Prints the player's current score and health |
-| `play(health, fixed_damage)` | Runs the game and returns the final score and health |
-| `main()` | Starts the game and handles Ctrl+C |
+| `forest()` | Shows the menu, validates input in a loop, returns `"1"`, `"2"` or `"3"` |
+| `cave(score, health)` | Monster attack (random damage 10 to 40), health reduction, key reward if the player survives |
+| `river(score, health)` | Treasure reward and status display |
+| `play_game()` | Main game loop; runs until the player quits or Health reaches 0 |
 
 ### Flowchart
 
@@ -132,17 +142,17 @@ The four test cases from the problem statement are implemented in `tests/test_ad
 | 3 | Invalid | Choices `7` and `abc` | `Invalid choice. Enter 1, 2 or 3.` (twice), no health lost | Pass |
 | 4 | Different valid | Damage 30, choices 1, 2, 3 | Health 70, key +20, treasure +50, final score 70 and Health 70 | Pass |
 
-Extra edge cases tested: damage always within 10 to 40, health never below 0, surviving with exactly 1 health, empty or symbol input, input with spaces, end-of-input handling and 200 randomized games.
+Extra edge cases tested: damage always within 10 to 40, health never below 0, surviving with exactly 1 health, the game stopping at Health 0, score kept when the player dies, empty or symbol input, input with spaces and 200 randomized games.
 
 ## Sample Runs
+
+Text after `Choice:` is what the player typed.
 
 ### Test Case 1: Normal input
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -160,13 +170,11 @@ Choice: 3
 You left the adventure. Final score: 50 | Health: 100
 ```
 
-### Test Case 2: Boundary / minimum input
+### Test Case 2: Boundary / minimum input (`STARTING_HEALTH = 30`, `FIXED_DAMAGE = 30`)
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 30 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 30 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -180,10 +188,8 @@ Game Over! Final score: 0
 ### Test Case 3: Invalid input
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -197,13 +203,11 @@ Choice: 3
 You left the adventure. Final score: 0 | Health: 100
 ```
 
-### Test Case 4: Different valid scenario
+### Test Case 4: Different valid scenario (`FIXED_DAMAGE = 30`)
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -236,9 +240,9 @@ More runs, including a random game that ends with Game Over, are in [`docs/sampl
 | Requirement | Where it is met |
 |-------------|-----------------|
 | Python 3, one `.py` file, runs from console | `adventure_game.py` |
-| Functions for each place and conditions for choices | `forest()`, `cave()`, `river()` and the branches in `play()` |
-| Loop until quit or Health reaches 0 | `while health > 0` in `play()` |
-| `random` module for monster damage; track Health and Score | `random.randint(10, 40)` in `get_damage()`; `score` and `health` variables |
+| Functions for each place and conditions for choices | `forest()`, `cave()`, `river()` and the `if / elif / else` in `play_game()` |
+| Loop until quit or Health reaches 0 | `while health > 0` in `play_game()` |
+| `random` module for monster damage; track Health and Score | `random.randint(10, 40)` in `cave()`; `score` and `health` variables |
 | Validate every menu choice; show final score at the end | Validation loop in `forest()`; final score printed on quit and on Game Over |
 
 ## Possible Improvements

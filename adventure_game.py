@@ -1,83 +1,87 @@
+"""
+Text-Based Adventure Game  (PS No. 39)
+Rungta International Skills University
+School of Computer Science and Engineering
+B.Tech CSE in association with IBM
+
+The player starts in the Forest with Health 100 and Score 0 and chooses
+where to go from a menu:
+
+    1. Cave  - a monster attacks (random damage 10-40). If the player
+               survives, a key is found (+20 score).
+    2. River - a treasure is found (+50 score).
+    3. Quit  - leave the adventure and show the final score.
+
+The game ends when the player quits or Health reaches 0.
+
+Concepts used: Conditions, Loops, Functions, Random.
+
+Run:  python adventure_game.py
+"""
+
 import random
 
-# Game settings
-DEFAULT_HEALTH = 100
+# ---------------- Game settings ----------------
+STARTING_HEALTH = 100   # Test Case 2: change to 30
+FIXED_DAMAGE = None     # Test Cases 2 and 4: change to 30 (None = random damage)
 MIN_DAMAGE = 10
 MAX_DAMAGE = 40
-KEY_SCORE = 20
-TREASURE_SCORE = 50
-
-# Menu options
-CAVE = 1
-RIVER = 2
-QUIT = 3
-
-
-def get_damage(fixed_damage=None):
-    """Return random monster damage, or a fixed value for repeatable tests."""
-    if fixed_damage is not None:
-        return fixed_damage
-    return random.randint(MIN_DAMAGE, MAX_DAMAGE)
-
-
-def show_status(score, health):
-    """Print the player's current score and health."""
-    print(f"Score: {score} | Health: {health}")
+KEY_POINTS = 20
+TREASURE_POINTS = 50
 
 
 def forest():
-    """Show the menu and keep asking until the player enters a valid choice."""
+    """Show the menu and return a valid choice ("1", "2" or "3")."""
     print("\nYou are in the Forest. Where do you want to go?")
     print("1. Cave")
     print("2. River")
     print("3. Quit")
 
     while True:
-        try:
-            choice = input("Choice: ").strip()
-        except EOFError:
-            return QUIT
-
+        choice = input("Choice: ").strip()
         if choice in ("1", "2", "3"):
-            return int(choice)
+            return choice
         print("Invalid choice. Enter 1, 2 or 3.")
 
 
-def cave(score, health, fixed_damage=None):
-    """Apply the Cave attack and reward a key if the player survives."""
-    damage = get_damage(fixed_damage)
-    health = max(0, health - damage)
+def cave(score, health):
+    """Cave: the monster attacks; a key is found only if the player survives."""
+    if FIXED_DAMAGE is None:
+        damage = random.randint(MIN_DAMAGE, MAX_DAMAGE)
+    else:
+        damage = FIXED_DAMAGE
+
+    health = max(0, health - damage)          # health never goes below 0
     print(f"Monster attacks! Damage: {damage}. Health: {health}")
 
     if health > 0:
-        score += KEY_SCORE
+        score += KEY_POINTS
         print(f"You found a key! Score: {score}")
     return score, health
 
 
 def river(score, health):
-    """Give the player the River treasure."""
-    score += TREASURE_SCORE
+    """River: a treasure gives +50 score."""
+    score += TREASURE_POINTS
     print("You found a treasure!")
-    show_status(score, health)
+    print(f"Score: {score} | Health: {health}")
     return score, health
 
 
-def play(health=DEFAULT_HEALTH, fixed_damage=None):
-    """Run the game until the player quits or loses all health."""
+def play_game():
+    """Run the game until the player quits or Health reaches 0."""
+    health = STARTING_HEALTH
     score = 0
 
-    print("=" * 40)
-    print("       TEXT-BASED ADVENTURE GAME")
-    print("=" * 40)
-    print(f"You start in the Forest. Health: {health} | Score: {score}")
+    print("TEXT-BASED ADVENTURE GAME")
+    print(f"Starting health: {health} | Score: {score}")
 
     while health > 0:
         choice = forest()
 
-        if choice == CAVE:
-            score, health = cave(score, health, fixed_damage)
-        elif choice == RIVER:
+        if choice == "1":
+            score, health = cave(score, health)
+        elif choice == "2":
             score, health = river(score, health)
         else:
             print(f"You left the adventure. Final score: {score} | Health: {health}")
@@ -87,13 +91,5 @@ def play(health=DEFAULT_HEALTH, fixed_damage=None):
     return score, health
 
 
-def main():
-    """Start the game and handle Ctrl+C cleanly."""
-    try:
-        play()
-    except KeyboardInterrupt:
-        print("\nYou left the adventure.")
-
-
 if __name__ == "__main__":
-    main()
+    play_game()

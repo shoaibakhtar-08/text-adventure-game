@@ -4,13 +4,13 @@ digraph G {
   edge [fontname="Helvetica", fontsize=10, color="#44546a"];
 
   start [label="START", shape=oval, fillcolor="#cfe8cf"];
-  init  [label="Health = 100\nScore = 0", shape=box];
+  init  [label="Health = STARTING_HEALTH (100)\nScore = 0", shape=box];
   loop  [label="Health > 0 ?", shape=diamond, fillcolor="#fff4cc"];
   menu  [label="Forest menu\n1 Cave | 2 River | 3 Quit\nRead choice", shape=parallelogram];
   valid [label="Choice is 1, 2 or 3 ?", shape=diamond, fillcolor="#fff4cc"];
   inv   [label="Print\n\"Invalid choice. Enter 1, 2 or 3.\"", shape=box, fillcolor="#fde2e2"];
   sel   [label="Which choice?", shape=diamond, fillcolor="#fff4cc"];
-  cave  [label="CAVE\ndamage = random 10-40\nHealth = max(0, Health - damage)\nPrint attack message", shape=box];
+  cave  [label="CAVE\ndamage = random 10-40 (or FIXED_DAMAGE)\nHealth = max(0, Health - damage)\nPrint attack message", shape=box];
   alive [label="Health > 0 ?", shape=diamond, fillcolor="#fff4cc"];
   key   [label="Score = Score + 20\nPrint \"You found a key!\"", shape=box];
   river [label="RIVER\nScore = Score + 50\nPrint treasure + status", shape=box];

@@ -1,7 +1,7 @@
 """
 Automated tests for the Text-Based Adventure Game (PS No. 39).
 
-Test Cases 1-4 mirror the four cases given in the problem statement.
+Test Cases 1-4 mirror the four cases in the problem statement.
 The remaining tests check extra edge cases.
 
 Run from the project root:
@@ -20,11 +20,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import adventure_game as game  # noqa: E402
 
 
-def run_game(inputs, health=game.DEFAULT_HEALTH, damage=None):
-    """Play a game with scripted inputs; return (score, health, output_text)."""
+def run_game(inputs, health=100, damage=None):
+    """Play one game with scripted inputs; return (score, health, output)."""
     buffer = io.StringIO()
-    with patch("builtins.input", side_effect=inputs), redirect_stdout(buffer):
-        score, final_health = game.play(health, damage)
+    with patch("builtins.input", side_effect=inputs), \
+         patch.object(game, "STARTING_HEALTH", health), \
+         patch.object(game, "FIXED_DAMAGE", damage), \
+         redirect_stdout(buffer):
+        score, final_health = game.play_game()
     return score, final_health, buffer.getvalue()
 
 
@@ -65,12 +68,10 @@ class ProblemStatementTestCases(unittest.TestCase):
 class EdgeCaseTests(unittest.TestCase):
 
     def test_random_damage_always_in_range(self):
-        for _ in range(1000):
-            self.assertTrue(game.MIN_DAMAGE <= game.get_damage() <= game.MAX_DAMAGE)
-
-    def test_random_damage_can_be_controlled_in_tests(self):
-        with patch("adventure_game.random.randint", return_value=30):
-            self.assertEqual(game.get_damage(), 30)
+        """With random damage, every cave visit costs 10 to 40 health."""
+        for _ in range(500):
+            _, health, _ = run_game(["1", "3"])
+            self.assertTrue(60 <= health <= 90)
 
     def test_health_never_negative(self):
         _, health, _ = run_game(["1"], health=30, damage=40)
@@ -82,8 +83,8 @@ class EdgeCaseTests(unittest.TestCase):
         self.assertEqual((score, health), (20, 1))
         self.assertIn("You found a key!", out)
 
-    def test_game_ends_when_health_reaches_zero_without_quit(self):
-        """Loop must stop on Health 0; no further input is requested."""
+    def test_game_ends_when_health_reaches_zero(self):
+        """The loop stops at Health 0; extra inputs are never requested."""
         score, health, out = run_game(["1", "1", "1", "1"], damage=30)
         self.assertEqual(health, 0)
         self.assertIn("Game Over!", out)
@@ -91,7 +92,7 @@ class EdgeCaseTests(unittest.TestCase):
     def test_score_kept_when_player_dies(self):
         score, health, out = run_game(["2", "1", "1", "1", "1"], damage=40)
         self.assertEqual(health, 0)
-        self.assertEqual(score, 50 + 2 * 20)   # River, then 2 survived caves
+        self.assertEqual(score, 50 + 2 * 20)    # River, then 2 survived caves
         self.assertIn("Game Over! Final score: 90", out)
 
     def test_empty_and_symbol_input_are_invalid(self):
@@ -107,11 +108,10 @@ class EdgeCaseTests(unittest.TestCase):
         score, health, out = run_game(["3"])
         self.assertIn("You left the adventure. Final score: 0 | Health: 100", out)
 
-    def test_random_game_is_always_consistent(self):
+    def test_random_games_are_always_consistent(self):
         """Many random games: health stays within 0-100, score is a multiple of 10."""
         for _ in range(200):
-            moves = ["1", "2"] * 20 + ["3"]
-            score, health, _ = run_game(moves)
+            score, health, _ = run_game(["1", "2"] * 20 + ["3"])
             self.assertTrue(0 <= health <= 100)
             self.assertEqual(score % 10, 0)
 

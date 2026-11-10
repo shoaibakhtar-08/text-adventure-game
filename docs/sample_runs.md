@@ -5,10 +5,8 @@ All output below is real program output. Text after `Choice:` is what the player
 ## Test Case 1: Normal input
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -27,11 +25,11 @@ You left the adventure. Final score: 50 | Health: 100
 ```
 
 ## Test Case 2: Boundary / minimum input
+Settings: `STARTING_HEALTH = 30`, `FIXED_DAMAGE = 30`
+
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 30 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 30 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -45,10 +43,8 @@ Game Over! Final score: 0
 ## Test Case 3: Invalid input
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -63,11 +59,11 @@ You left the adventure. Final score: 0 | Health: 100
 ```
 
 ## Test Case 4: Different valid scenario
+Settings: `FIXED_DAMAGE = 30`
+
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -96,10 +92,8 @@ You left the adventure. Final score: 70 | Health: 70
 ## Extra run: random damage, player quits
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -144,10 +138,8 @@ You left the adventure. Final score: 110 | Health: 26
 ## Extra run: random damage, player loses all health
 
 ```text
-========================================
-       TEXT-BASED ADVENTURE GAME
-========================================
-You start in the Forest. Health: 100 | Score: 0
+TEXT-BASED ADVENTURE GAME
+Starting health: 100 | Score: 0
 
 You are in the Forest. Where do you want to go?
 1. Cave
@@ -197,3 +189,4 @@ Choice: 1
 Monster attacks! Damage: 21. Health: 0
 Game Over! Final score: 130
 ```
+
