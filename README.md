@@ -1,6 +1,6 @@
 # Text-Based Adventure Game
 
-[![Tests](https://github.com/YOUR-USERNAME/text-adventure-game/actions/workflows/tests.yml/badge.svg)](https://github.com/YOUR-USERNAME/text-adventure-game/actions/workflows/tests.yml)
+[![Tests](https://github.com/shoaibakhtar-08/text-adventure-game/actions/workflows/tests.yml/badge.svg)](https://github.com/YOUR-USERNAME/text-adventure-game/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
