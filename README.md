@@ -32,22 +32,22 @@ A console-based adventure game written in **Python 3**. The player explores a fo
 
 The player starts in the **Forest** with **Health 100** and **Score 0**.
 
-| Choice | Place | What happens |
-|:------:|-------|--------------|
-| `1` | Cave | A monster attacks (random damage **10 to 40**). If the player survives, a key is found: **+20 score**. |
-| `2` | River | A treasure is found: **+50 score**. |
-| `3` | Quit | The player leaves the adventure and the final score is shown. |
+| Choice | Place | What happens                                                                                           |
+| :----: | ----- | ------------------------------------------------------------------------------------------------------ |
+|  `1`   | Cave  | A monster attacks (random damage **10 to 40**). If the player survives, a key is found: **+20 score**. |
+|  `2`   | River | A treasure is found: **+50 score**.                                                                    |
+|  `3`   | Quit  | The player leaves the adventure and the final score is shown.                                          |
 
-* The game ends when the player quits **or** Health reaches **0**.
-* Invalid input (for example `7`, `abc`, or an empty line) shows an error message and asks again. No health is lost.
-* Health never drops below 0.
+- The game ends when the player quits **or** Health reaches **0**.
+- Invalid input (for example `7`, `abc`, or an empty line) shows an error message and asks again. No health is lost.
+- Health never drops below 0.
 
 ## Requirements and How to Run
 
-* Requirements: Python 3 (developed and tested on Python 3.14). No external libraries needed, because only the standard library is used (random).
+- Requirements: Python 3 (developed and tested on Python 3.14). No external libraries needed, because only the standard library is used (random).
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/text-adventure-game.git
+git clone https://github.com/shoaibakhtar-08/text-adventure-game.git
 cd text-adventure-game
 python adventure_game.py
 ```
@@ -63,11 +63,11 @@ STARTING_HEALTH = 100   # Test Case 2: change to 30
 FIXED_DAMAGE = None     # Test Cases 2 and 4: change to 30 (None = random damage)
 ```
 
-| Test case | `STARTING_HEALTH` | `FIXED_DAMAGE` |
-|-----------|:-----------------:|:--------------:|
-| 1 (normal) and 3 (invalid) | 100 | `None` |
-| 2 (boundary) | 30 | 30 |
-| 4 (different valid scenario) | 100 | 30 |
+| Test case                    | `STARTING_HEALTH` | `FIXED_DAMAGE` |
+| ---------------------------- | :---------------: | :------------: |
+| 1 (normal) and 3 (invalid)   |        100        |     `None`     |
+| 2 (boundary)                 |        30         |       30       |
+| 4 (different valid scenario) |        100        |       30       |
 
 Set them back to `100` and `None` for normal play.
 
@@ -101,12 +101,12 @@ text-adventure-game/
 
 ### Functions
 
-| Function | Purpose |
-|----------|---------|
-| `forest()` | Shows the menu, validates input in a loop, returns `"1"`, `"2"` or `"3"` |
-| `cave(score, health)` | Monster attack (random damage 10 to 40), health reduction, key reward if the player survives |
-| `river(score, health)` | Treasure reward and status display |
-| `play_game()` | Main game loop; runs until the player quits or Health reaches 0 |
+| Function               | Purpose                                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
+| `forest()`             | Shows the menu, validates input in a loop, returns `"1"`, `"2"` or `"3"`                     |
+| `cave(score, health)`  | Monster attack (random damage 10 to 40), health reduction, key reward if the player survives |
+| `river(score, health)` | Treasure reward and status display                                                           |
+| `play_game()`          | Main game loop; runs until the player quits or Health reaches 0                              |
 
 ### Flowchart
 
@@ -135,12 +135,12 @@ A static image version is available in [`docs/flowchart.png`](docs/flowchart.png
 
 The four test cases from the problem statement are implemented in `tests/test_adventure_game.py` and all pass.
 
-| # | Type | Input | Expected output | Result |
-|:-:|------|-------|-----------------|:------:|
-| 1 | Normal | Choice 2 (River) | `You found a treasure!` / `Score: 50 \| Health: 100` | Pass |
-| 2 | Boundary | Health 30, Choice 1 (Cave), damage 30 | `Monster attacks! Damage: 30. Health: 0` / `Game Over! Final score: 0` | Pass |
-| 3 | Invalid | Choices `7` and `abc` | `Invalid choice. Enter 1, 2 or 3.` (twice), no health lost | Pass |
-| 4 | Different valid | Damage 30, choices 1, 2, 3 | Health 70, key +20, treasure +50, final score 70 and Health 70 | Pass |
+|  #  | Type            | Input                                 | Expected output                                                        | Result |
+| :-: | --------------- | ------------------------------------- | ---------------------------------------------------------------------- | :----: |
+|  1  | Normal          | Choice 2 (River)                      | `You found a treasure!` / `Score: 50 \| Health: 100`                   |  Pass  |
+|  2  | Boundary        | Health 30, Choice 1 (Cave), damage 30 | `Monster attacks! Damage: 30. Health: 0` / `Game Over! Final score: 0` |  Pass  |
+|  3  | Invalid         | Choices `7` and `abc`                 | `Invalid choice. Enter 1, 2 or 3.` (twice), no health lost             |  Pass  |
+|  4  | Different valid | Damage 30, choices 1, 2, 3            | Health 70, key +20, treasure +50, final score 70 and Health 70         |  Pass  |
 
 Extra edge cases tested: damage always within 10 to 40, health never below 0, surviving with exactly 1 health, the game stopping at Health 0, score kept when the player dies, empty or symbol input, input with spaces and 200 randomized games.
 
@@ -237,20 +237,20 @@ More runs, including a random game that ends with Game Over, are in [`docs/sampl
 
 ## Mapping to Bare Minimum Requirements
 
-| Requirement | Where it is met |
-|-------------|-----------------|
-| Python 3, one `.py` file, runs from console | `adventure_game.py` |
-| Functions for each place and conditions for choices | `forest()`, `cave()`, `river()` and the `if / elif / else` in `play_game()` |
-| Loop until quit or Health reaches 0 | `while health > 0` in `play_game()` |
-| `random` module for monster damage; track Health and Score | `random.randint(10, 40)` in `cave()`; `score` and `health` variables |
-| Validate every menu choice; show final score at the end | Validation loop in `forest()`; final score printed on quit and on Game Over |
+| Requirement                                                | Where it is met                                                             |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Python 3, one `.py` file, runs from console                | `adventure_game.py`                                                         |
+| Functions for each place and conditions for choices        | `forest()`, `cave()`, `river()` and the `if / elif / else` in `play_game()` |
+| Loop until quit or Health reaches 0                        | `while health > 0` in `play_game()`                                         |
+| `random` module for monster damage; track Health and Score | `random.randint(10, 40)` in `cave()`; `score` and `health` variables        |
+| Validate every menu choice; show final score at the end    | Validation loop in `forest()`; final score printed on quit and on Game Over |
 
 ## Possible Improvements
 
-* Save and display a high-score table
-* More places and items (inventory, healing potion)
-* Difficulty levels that change monster damage
-* Colour output and a graphical interface
+- Save and display a high-score table
+- More places and items (inventory, healing potion)
+- Difficulty levels that change monster damage
+- Colour output and a graphical interface
 
 ## Author
 
