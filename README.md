@@ -1,7 +1,7 @@
 # Text-Based Adventure Game
 
-[![Tests](https://github.com/shoaibakhtar-08/text-adventure-game/actions/workflows/tests.yml/badge.svg)](https://github.com/YOUR-USERNAME/text-adventure-game/actions/workflows/tests.yml)
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+[![Tests](https://github.com/shoaibakhtar-08/text-adventure-game/actions/workflows/tests.yml/badge.svg)](https://github.com/shoaibakhtar-08/text-adventure-game/actions/workflows/tests.yml)
+![Python](https://img.shields.io/badge/python-3.14-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **PS No. 39** | Semester 1 Project
@@ -44,7 +44,7 @@ The player starts in the **Forest** with **Health 100** and **Score 0**.
 
 ## Requirements and How to Run
 
-* Python 3.8 or newer (Python 3 only, **no external libraries needed**)
+* Requirements: Python 3 (developed and tested on Python 3.14). No external libraries needed, because only the standard library is used (random).
 
 ```bash
 git clone https://github.com/YOUR-USERNAME/text-adventure-game.git
